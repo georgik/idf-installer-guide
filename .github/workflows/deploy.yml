@@ -28,6 +28,8 @@ jobs:
 
     - name: Cache Cargo Packages
       uses: Swatinem/rust-cache@v2
+      with:
+        cache-targets: "false"
 
     - name: Install Trunk
       run: |
