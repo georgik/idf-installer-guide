@@ -33,15 +33,6 @@ jobs:
       run: |
         cargo install trunk wasm-bindgen-cli
 
-    - name: Install Trunk
-      run: |
-        if ! command -v trunk &> /dev/null
-        then
-          cargo install trunk wasm-bindgen-cli
-        else
-          echo "Trunk and wasm-bindgen-cli are cached"
-        fi
-
     - name: Build with Trunk
       run: trunk build --release --public-url "/idf-installer-guide"
     - name: Setup Pages
