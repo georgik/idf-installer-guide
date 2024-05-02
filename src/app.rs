@@ -17,6 +17,19 @@ pub fn app() -> Html {
         })
     };
 
+    // Callback to handle button click and decrement the step
+    let on_previous = {
+        let step = step.clone();
+        Callback::from(move |_| {
+            let new_step = if *step == 0 {
+                total_steps - 1 // Loop back to the last step from the first one
+            } else {
+                *step - 1
+            };
+            step.set(new_step);
+        })
+    };
+
     // Function to get the image path based on the current step
     let get_image_path = |step: usize| -> String {
         let filename = match step {
@@ -41,6 +54,8 @@ pub fn app() -> Html {
         <main>
             <h1>{ "ESP-IDF Installation Guide" }</h1>
             <img src={get_image_path(*step)} alt={format!("Step {}", *step + 1)} />
+            <br />
+            <button onclick={on_previous}>{ "Previous Step" }</button>
             <button onclick={on_next}>{ "Next Step" }</button>
         </main>
     }
