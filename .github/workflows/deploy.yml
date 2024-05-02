@@ -21,18 +21,32 @@ jobs:
         override: true
         target: wasm32-unknown-unknown
 
+    - name: Cache Cargo Binaries
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/bin
+        key: ${{ runner.os }}-cargo-bin-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-bin-
+
     - name: Install Trunk
-      run: cargo install trunk wasm-bindgen-cli
+      run: |
+        if ! command -v trunk &> /dev/null
+        then
+          cargo install trunk wasm-bindgen-cli
+        else
+          echo "Trunk and wasm-bindgen-cli are cached"
+        fi
 
     - name: Build with Trunk
       run: trunk build --release
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist  # Set this to the output directory of Trunk
-
-
-
-
+        path: 'dist'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
