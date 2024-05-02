@@ -34,7 +34,7 @@ pub fn app() -> Html {
             11 => "12-idf-installer-windows-defender.png",
             _ => "01-idf-installer-license.png", // Default case to handle any unexpected value
         }.to_string();
-        "/images/".to_string() + &filename
+        "images/".to_string() + &filename
     };
 
     html! {
