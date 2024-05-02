@@ -27,7 +27,7 @@ jobs:
         target: wasm32-unknown-unknown
 
     - name: Cache Cargo Binaries
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: |
           ~/.cargo/bin
@@ -45,7 +45,7 @@ jobs:
         fi
 
     - name: Build with Trunk
-      run: trunk build --release
+      run: trunk build --release --public-url idf-installer-guide
     - name: Setup Pages
       uses: actions/configure-pages@v5
     - name: Upload artifact
